@@ -27,13 +27,25 @@ namespace JweWebApp.Services
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Secret));
             var authClaims = claims;
-            var accessToken = new JwtSecurityToken(
+
+            var accessToken = new JwtSecurityTokenHandler().CreateJwtSecurityToken(
+                issuer: configuration.ValidIssuer,
+                audience: configuration.ValidAudience,
+                subject: new ClaimsIdentity(authClaims),
+                notBefore: DateTime.Now.ToUniversalTime(),
+                expires: DateTime.Now.ToUniversalTime().AddHours(configuration.AccessTokenExpiration),
+                issuedAt: DateTime.Now,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
+                encryptingCredentials: new EncryptingCredentials(authSigningKey, JwtConstants.DirectKeyUseAlg, 
+                                                            SecurityAlgorithms.Aes256CbcHmacSha512));
+            /*var accessToken = new JwtSecurityToken(
                     issuer: configuration.ValidIssuer,
                     audience: configuration.ValidAudience,
                     expires: DateTime.Now.ToUniversalTime().AddHours(configuration.AccessTokenExpiration),
                     claims: authClaims,
+                     
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+                    );*/
             return accessToken;
         }
         public RefreshTokens GenerateRefreshToken(string userId, JweConfiguration configuration)
