@@ -1,4 +1,5 @@
-﻿using JweWebApp.Model;
+﻿using JweWebApp.Interfaces;
+using JweWebApp.Model;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JweWebApp.Services
 {
-    public class JweConfigurationService
+    public class JweConfigurationService : IConfigurationService
     {
         private readonly IConfiguration _configuration;
         public JweConfigurationService(IConfiguration configuration)

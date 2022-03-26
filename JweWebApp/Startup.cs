@@ -11,6 +11,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using JweWebApp.Services;
+using JweWebApp.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace JweWebApp
 {
@@ -35,10 +41,10 @@ namespace JweWebApp
             //Controllers
             services.AddControllers();
             //UserStore
-            services.AddTransient<MoneyFlowUserStore>();
+            services.AddTransient<JweUserStore>();
             //Authentication & JWT Bearer
             services.AddTransient<ITokenService, TokenService>();
-            services.AddTransient<IConfigurationService, JwtConfigurationService>();
+            services.AddTransient<IConfigurationService, JweConfigurationService>();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
