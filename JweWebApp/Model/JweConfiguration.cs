@@ -11,6 +11,7 @@ namespace JweWebApp.Model
         public string ValidAudience { get; set; }
         public string ValidIssuer { get; set; }
         public string Secret { get; set; }
+        public string EncryptionKey { get; set; }
         public int AccessTokenExpiration { get; set; }
         public int RefreshTokenExpiration { get; set; }
         public JweConfiguration(IConfigurationSection section)
@@ -18,6 +19,7 @@ namespace JweWebApp.Model
             ValidAudience = section.GetValue<string>("ValidAudience");
             ValidIssuer = section.GetValue<string>("ValidIssuer");
             Secret = section.GetValue<string>("Secret");
+            EncryptionKey = section.GetValue<string>("EncryptionKey");
             AccessTokenExpiration = Convert.ToInt32(section.GetValue<string>("AccessTokenExpiration"));
             RefreshTokenExpiration = Convert.ToInt32(section.GetValue<string>("RefreshTokenExpiration"));
         }

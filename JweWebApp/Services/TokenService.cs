@@ -26,6 +26,7 @@ namespace JweWebApp.Services
         public JwtSecurityToken GenerateAccessToken(IEnumerable<Claim> claims, JweConfiguration configuration)
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.Secret));
+            var authEncryptingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.EncryptionKey));
             var authClaims = claims;
 
             var accessToken = new JwtSecurityTokenHandler().CreateJwtSecurityToken(
@@ -36,7 +37,7 @@ namespace JweWebApp.Services
                 expires: DateTime.Now.ToUniversalTime().AddHours(configuration.AccessTokenExpiration),
                 issuedAt: DateTime.Now,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
-                encryptingCredentials: new EncryptingCredentials(authSigningKey, JwtConstants.DirectKeyUseAlg, 
+                encryptingCredentials: new EncryptingCredentials(authEncryptingKey, JwtConstants.DirectKeyUseAlg, 
                                                             SecurityAlgorithms.Aes256CbcHmacSha512));
             /*var accessToken = new JwtSecurityToken(
                     issuer: configuration.ValidIssuer,

@@ -64,14 +64,20 @@ namespace JweWebApp.Pages
                     var refreshToken = _tokenService.GenerateRefreshToken(user.Id, tokenConfig);
                     await _userStore.AddRefreshToken(refreshToken);
 
-                    StatusCode(StatusCodes.Status200OK, new
+                    var result = await _signInManager.PasswordSignInAsync(LoginViewModel.Email, LoginViewModel.Password, LoginViewModel.RememberMe, false);
+                    if (result.Succeeded)
                     {
-                        Status = "Success",
-                        Message = "User logged in.",
-                        token = new JwtSecurityTokenHandler().WriteToken(token),
-                        expiration = token.ValidTo,
-                        refreshToken = refreshToken
-                    });
+                        await _signInManager.SignInAsync(user, false);
+                        return StatusCode(StatusCodes.Status200OK, new
+                        {
+                            Status = "Success",
+                            Message = "User logged in.",
+                            token = new JwtSecurityTokenHandler().WriteToken(token),
+                            expiration = token.ValidTo,
+                            refreshToken = refreshToken
+                        });
+                    }
+                    
 
                     /*return Ok(new
                     {
