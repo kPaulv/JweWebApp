@@ -1,4 +1,5 @@
 ﻿using JweWebApp.Entities;
+using JweWebApp.Model;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,8 +11,8 @@ namespace JweWebApp.Interfaces
 {
     public interface ITokenService
     {
-        JwtSecurityToken GenerateAccessToken(IEnumerable<Claim> claims, JwtConfiguration configuration);
-        RefreshTokens GenerateRefreshToken(string userId, JwtConfiguration configuration);
+        JwtSecurityToken GenerateAccessToken(IEnumerable<Claim> claims, JweConfiguration configuration);
+        RefreshTokens GenerateRefreshToken(string userId, JweConfiguration configuration);
         ClaimsPrincipal GetPrincipalFromExpiredToken(string token);
     }
 }
