@@ -1,5 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using JweWebApp.Interfaces;
+using JweWebApp.Services;
+using JweWebApp.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +16,13 @@ namespace JweWebApp.Controllers
     public class AuthController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly MoneyFlowUserStore _userStore;
+        private readonly JweUserStore _userStore;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly ITokenService _tokenService;
         private readonly IConfigurationService _configurationService;
 
-        public AuthController(UserManager<IdentityUser> userManager, MoneyFlowUserStore userStore, SignInManager<IdentityUser> signInManager,
+        public AuthController(UserManager<IdentityUser> userManager, JweUserStore userStore, SignInManager<IdentityUser> signInManager,
                                 IConfiguration configuration, ITokenService tokenService, IConfigurationService configurationService/*, AuthDbContext context*/)
         {
             _userManager = userManager;
@@ -31,7 +35,7 @@ namespace JweWebApp.Controllers
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] Login model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
 
