@@ -55,6 +55,7 @@ namespace JweWebApp.Pages
                 if (!result.Succeeded)
                     return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
+                await _signInManager.SignInAsync(user, false);
                 //return Ok(new Response { Status = "Success", Message = "User created successfully!" });
                 return RedirectToPage("Index");
 

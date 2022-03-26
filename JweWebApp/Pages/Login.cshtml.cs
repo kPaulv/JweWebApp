@@ -67,7 +67,9 @@ namespace JweWebApp.Pages
                     var result = await _signInManager.PasswordSignInAsync(LoginViewModel.Email, LoginViewModel.Password, LoginViewModel.RememberMe, false);
                     if (result.Succeeded)
                     {
-                        await _signInManager.SignInAsync(user, false);
+                        //await _signInManager.SignInAsync(user, false);
+                        var res = _signInManager.IsSignedIn(User);
+                        //return RedirectToPage("Index");
                         return StatusCode(StatusCodes.Status200OK, new
                         {
                             Status = "Success",
